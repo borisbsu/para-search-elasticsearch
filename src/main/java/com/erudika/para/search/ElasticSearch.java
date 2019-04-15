@@ -566,7 +566,7 @@ public class ElasticSearch implements Search {
 			} else {
 				hits = getRESTClient().search(search, RequestOptions.DEFAULT).getHits();
 			}
-			page.setCount(hits.getTotalHits());
+			page.setCount(hits.getTotalHits().value);
 			if (hits.getHits().length > 0) {
 				Object id = hits.getAt(hits.getHits().length - 1).getSourceAsMap().get("_docid");
 				if (id != null) {
@@ -630,9 +630,9 @@ public class ElasticSearch implements Search {
 			SearchRequest search = new SearchRequest(getIndexName(appid)).
 					source(SearchSourceBuilder.searchSource().size(0).query(query));
 			if (USE_TRANSPORT_CLIENT) {
-				count = getTransportClient().search(search).actionGet().getHits().getTotalHits();
+				count = getTransportClient().search(search).actionGet().getHits().getTotalHits().value;
 			} else {
-				count = getRESTClient().search(search, RequestOptions.DEFAULT).getHits().getTotalHits();
+				count = getRESTClient().search(search, RequestOptions.DEFAULT).getHits().getTotalHits().value;
 			}
 		} catch (Exception e) {
 			Throwable cause = e.getCause();
@@ -656,9 +656,9 @@ public class ElasticSearch implements Search {
 				SearchRequest search = new SearchRequest(getIndexName(appid)).
 					source(SearchSourceBuilder.searchSource().size(0).query(query));
 				if (USE_TRANSPORT_CLIENT) {
-					count = getTransportClient().search(search).actionGet().getHits().getTotalHits();
+					count = getTransportClient().search(search).actionGet().getHits().getTotalHits().value;
 				} else {
-					count = getRESTClient().search(search, RequestOptions.DEFAULT).getHits().getTotalHits();
+					count = getRESTClient().search(search, RequestOptions.DEFAULT).getHits().getTotalHits().value;
 				}
 			} catch (Exception e) {
 				Throwable cause = e.getCause();
